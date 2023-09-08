@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@apollo/datasource-rest": "^6.1.0",
     "@apollo/server": "^4.9.3",
     "@neo4j/graphql": "^4.1.1",
     "graphql": "^16.8.0",
