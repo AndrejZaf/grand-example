@@ -5,11 +5,9 @@ import { Neo4jGraphQL } from "@neo4j/graphql";
 import { JokeAPI } from "./datasource/jokes.api.js";
 
 const typeDefs = `#graphql
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  # This "Book" type defines the queryable fields for every book in our data source.
   type Book {
-    title: String
+    id: ID! @id @unique
+    title: String! @unique(constraintName: "unique_book_title")
     author: String
   }
 
@@ -47,6 +45,8 @@ interface CustomContext {
 const server = new ApolloServer<CustomContext>({
   schema: await neoSchema.getSchema(),
 });
+
+await neoSchema.assertIndexesAndConstraints({ options: { create: true } });
 
 const { url } = await startStandaloneServer(server, {
   listen: { port: 4000 },
